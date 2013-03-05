@@ -17,7 +17,7 @@ These properties are used to provide boundaries for data within a buffer; typica
 
 Buffers can be _duplicated_ using the unsurprisingly-named `ByteBuffer.duplicate()` method. This causes a new buffer object to be created with the same backing storage as the original buffer, but with independent position and limit values.
 
-Similarly, a buffer can be _sliced_, meaning a subsection of a buffer's backing storage can be exposed as a new buffer. This can be done using the `ByteBuffer.slice()` method, which creates a new buffer whose content begins at the current buffer's position, and whose capacity is equal to the remaining space in the original buffer. See xref:BufferUtilities[the Buffer Utilities section] for more useful ways to slice buffers.
+Similarly, a buffer can be _sliced_, meaning a subsection of a buffer's backing storage can be exposed as a new buffer. This can be done using the `ByteBuffer.slice()` method, which creates a new buffer whose content begins at the current buffer's position, and whose capacity is equal to the remaining space in the original buffer. See xref:buffer-utilities[the Buffer Utilities section] for more useful ways to slice buffers.
 
 In both cases, you must be aware of the fact that the backing content is shared, especially if multiple threads or asynchronous tasks may handle the buffer simultaneously.
 
