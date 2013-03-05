@@ -1,7 +1,7 @@
 xnio-userdoc
 ============
 
-JBoss.org XNIO User Guide (ported to ASCIIDOC)
+JBoss.org XNIO User Guide (ported to [AsciiDoc](http://www.methods.co.nz/asciidoc/)):
 
     $ cat en-book-parts/about.asciidoc en-book-parts/buffers.asciidoc \
       en-book-parts/configuration.asciidoc en-book-parts/workers.asciidoc \
