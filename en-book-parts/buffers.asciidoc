@@ -1,7 +1,7 @@
 == Buffers
 
 === Buffers Overview
-XNIO, like NIO, is based on the usage of buffers as implemented by the NIO buffer classes in the `java.nio` package. The NIO documentation defines a `java.nio.Buffer` as "a linear, finite sequence of elements of a specific primitive type". There are buffer types corresponding to every primitive type; however, as a practical matter, networking software will rarely use a buffer type other than `java.nio.ByteBuffer`.
+XNIO, like NIO, is based on the usage of buffers as implemented by the NIO buffer classes in the `java.nio` package. The NIO documentation defines a `java.nio.Buffer` as ``a linear, finite sequence of elements of a specific primitive type''. There are buffer types corresponding to every primitive type; however, as a practical matter, networking software will rarely use a buffer type other than `java.nio.ByteBuffer`.
 
 Buffers are _mutable_, meaning that the data in the buffer is subject to alteration, as are the buffer's properties. Buffers are also _unsafe_ for use in multiple threads without some type of external synchronization.
 
@@ -11,7 +11,7 @@ There are three primary attributes in a `java.nio.Buffer`:
 * the _limit_, a zero-based mutable integer value which is used to mark the end of the buffer's data when reading or the point at which mo more data may be added when writing (this value is always greater than or equal to the position)
 * the _capacity_, a zero-based fixed integer value which represents the total size of the buffer (this value is always greater than or equal to the limit)
 
-In addition, there is one "virtual" attribute which may be derived from these: the _remaining_ _size_, which is equal to the difference between the position and the limit.
+In addition, there is one ``virtual'' attribute which may be derived from these: the _remaining_ _size_, which is equal to the difference between the position and the limit.
 
 These properties are used to provide boundaries for data within a buffer; typically a buffer will have a larger capacity than limit (meaning that there is more space in the buffer than there is actual useful data). The position and limit properties allow the application to deal with data that is of a possibly smaller size than the buffer's total capacity.
 
@@ -22,26 +22,26 @@ Similarly, a buffer can be _sliced_, meaning a subsection of a buffer's backing 
 In both cases, you must be aware of the fact that the backing content is shared, especially if multiple threads or asynchronous tasks may handle the buffer simultaneously.
 
 === Buffer Types
-The NIO API specifies two types of buffers: _heap_ buffers and _direct_ buffers. Heap buffers are buffers which wrap arrays. Generally, the "backing array" for such buffers is accessible indirectly via the `ByteBuffer` API. Heap buffers are characterized by fast access; however, they often cannot be used directly with channels (NIO generally copies the data of such buffers to and from direct buffers before performing I/O operations on them).
+The NIO API specifies two types of buffers: _heap_ buffers and _direct_ buffers. Heap buffers are buffers which wrap arrays. Generally, the ``backing array'' for such buffers is accessible indirectly via the `ByteBuffer` API. Heap buffers are characterized by fast access; however, they often cannot be used directly with channels (NIO generally copies the data of such buffers to and from direct buffers before performing I/O operations on them).
 
-Direct buffers are buffers which are backed by memory allocated outside of the system heap - most often, as is the case when the `ByteBuffer.allocateDirect()` method is used, it is simply system heap memory. They have no "backing array" and are characterized by slower access because each access has to utilize special APIs (often involving a JNI bridge or an `Unsafe` method call) to transfer data to and from the memory region. Despite this, using direct buffers are much faster in certain cases because NIO can utilize them "directly" for I/O operations without introducing additional copies.
+Direct buffers are buffers which are backed by memory allocated outside of the system heap - most often, as is the case when the `ByteBuffer.allocateDirect()` method is used, it is simply system heap memory. They have no ``backing array'' and are characterized by slower access because each access has to utilize special APIs (often involving a JNI bridge or an `Unsafe` method call) to transfer data to and from the memory region. Despite this, using direct buffers are much faster in certain cases because NIO can utilize them ``directly'' for I/O operations without introducing additional copies.
 
 There is another variation on direct buffers: _mapped_ buffers. These buffers have a special type (`java.nio.MappedByteBuffer`) and typically represent a mapping of a portion of a file into memory. Using such buffers as the source or target of read/write operations can, under some circumstances, perform much better than copying to and them from an intermediate buffer (of any type).
 
 === Accessing Buffers
 Data can be read from or written to buffers in two ways: using _absolute_ operations or _relative_ operations. The absolute operations accept a parameter which represents the absolute position of the data to be read or written, which will happen without advancing the buffer position regardless of the offset; the relative operations read or write at the current position, advancing the position by the size of the item being read or written.
 
-When writing data to an empty buffer, either via the `putXXX()` operations or by reading from a channel into a buffer, the limit is generally set to be equal to the capacity, with the position advancing as the buffer is filled. For the sake of discussion, this state will be called the "filling" state.
+When writing data to an empty buffer, either via the `putXXX()` operations or by reading from a channel into a buffer, the limit is generally set to be equal to the capacity, with the position advancing as the buffer is filled. For the sake of discussion, this state will be called the ``filling'' state.
 
-Once the buffer is satisfactorily populated from the desired source, it may be flipped by invoking the `flip()` method on the buffer. This sets the limit to the position, and resets the position back to the start of the buffer, effectively allowing the data to be read out of the buffer again. This state will be referred to as the "emptying" state.
+Once the buffer is satisfactorily populated from the desired source, it may be flipped by invoking the `flip()` method on the buffer. This sets the limit to the position, and resets the position back to the start of the buffer, effectively allowing the data to be read out of the buffer again. This state will be referred to as the ``emptying'' state.
 
 If a flipped buffer's data is not able to be fully consumed, the buffer may be restored to the filling state without losing any of its remaining data by way of the `compact()` method. This method effectively moves the remaining data to the beginning of the buffer, sets the position to be just after the end of this data, and resets the limit to be equal to the capacity.
 
-A buffer may be cleared at any time by way of the `clear()` method. This method resets the position to zero, and sets the limit to be equal to the capacity. Thus the buffer is effectively emptied and restored to the "filling" state.
+A buffer may be cleared at any time by way of the `clear()` method. This method resets the position to zero, and sets the limit to be equal to the capacity. Thus the buffer is effectively emptied and restored to the ``filling'' state.
 
-The `rewind()` method restarts the position back at zero. This allows a buffer in the "emptying" state which was read partially or completely to be reread in whole. A buffer in the "filling" state is effectively cleared by this method.
+The `rewind()` method restarts the position back at zero. This allows a buffer in the ``emptying'' state which was read partially or completely to be reread in whole. A buffer in the ``filling'' state is effectively cleared by this method.
 
-Often, in XNIO documentation and comments, the phrases "flipped for emptying/writing" and "compacted/emptied for filling/reading" will appear. The former refers to the "emptying" state, while the latter refers to the "filling" state.
+Often, in XNIO documentation and comments, the phrases ``flipped for emptying/writing'' and ``compacted/emptied for filling/reading'' will appear. The former refers to the ``emptying'' state, while the latter refers to the ``filling'' state.
 
 When keeping a buffer for long periods of time and/or sharing it between tasks or threads, it is advisable to keep it in one state or the other in order to ensure consistent behavior. If your task requires the buffer to be in the opposite state for an operation, this should be done using a standard `try/finally` mechanism, like this:
 
@@ -84,5 +84,5 @@ The `free()` and `discard()` methods are idempotent. Furthermore, if either meth
 
 WARNING: It is *critical* that buffers not be accessed after their corresponding `Pooled` object is freed or discarded. Doing so may cause difficult-to-debug data corruption.
 
-The pool API is only currently implemented for buffers, however the API used is generally applicable to many types of resources and may be used for other item types beyond buffers. The type signatures for these interfaces are intended to be read fluently, e.g. `Pool<ByteBuffer>` is read as "a pool of byte buffers" and `Pooled<ByteBuffer>` is read as "a pooled byte buffer".
+The pool API is only currently implemented for buffers, however the API used is generally applicable to many types of resources and may be used for other item types beyond buffers. The type signatures for these interfaces are intended to be read fluently, e.g. `Pool<ByteBuffer>` is read as ``a pool of byte buffers'' and `Pooled<ByteBuffer>` is read as ``a pooled byte buffer''.
 
