@@ -17,7 +17,7 @@ These properties are used to provide boundaries for data within a buffer; typica
 
 Buffers can be _duplicated_ using the unsurprisingly-named `ByteBuffer.duplicate()` method. This causes a new buffer object to be created with the same backing storage as the original buffer, but with independent position and limit values.
 
-Similarly, a buffer can be _sliced_, meaning a subsection of a buffer's backing storage can be exposed as a new buffer. This can be done using the `ByteBuffer.slice()` method, which creates a new buffer whose content begins at the current buffer's position, and whose capacity is equal to the remaining space in the original buffer. See [the Buffer Utilities section|XNIO:Buffer Utilities] for more useful ways to slice buffers.
+Similarly, a buffer can be _sliced_, meaning a subsection of a buffer's backing storage can be exposed as a new buffer. This can be done using the `ByteBuffer.slice()` method, which creates a new buffer whose content begins at the current buffer's position, and whose capacity is equal to the remaining space in the original buffer. See xref:BufferUtilities[the Buffer Utilities section] for more useful ways to slice buffers.
 
 In both cases, you must be aware of the fact that the backing content is shared, especially if multiple threads or asynchronous tasks may handle the buffer simultaneously.
 
@@ -74,11 +74,11 @@ Because buffer allocation (especially direct buffer allocation) has a specific, 
 
 In order to effectively pool a resource, the pool consumer must have a mechanism by which pooled resources can be returned to the pool. Because of the nature of the JVM GC cycle, using automatic cleanup mechanisms such as finalization are not only ineffective, but actually detrimental to performance and functionality; for example, it is possible to artificially deplete the direct buffer pool because outstanding allocated direct buffer objects remain in existence due to GC delays.
 
-The XNIO buffer pool API utilizes two classes for this purpose: http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pool.html[org.xnio.Pool] and http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pooled.html[org.xnio.Pooled]. The former represents the pool itself, and the latter is a holder for a pooled resource type.
+The XNIO buffer pool API utilizes two classes for this purpose: http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pool.html[`org.xnio.Pool`] and http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pooled.html[`org.xnio.Pooled`]. The former represents the pool itself, and the latter is a holder for a pooled resource type.
 
-If an item is allocated from a pool which is empty, a http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/PoolDepletedException.html[org.xnio.PoolDepletedException] will result. This is a runtime exception, but should be gracefully handled nevertheless (though in many cases the only acceptable behavior is the cancellation of whatever the current operation is).
+If an item is allocated from a pool which is empty, a http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/PoolDepletedException.html[`org.xnio.PoolDepletedException`] will result. This is a runtime exception, but should be gracefully handled nevertheless (though in many cases the only acceptable behavior is the cancellation of whatever the current operation is).
 
-Items allocated from pools must be http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pooled.html#free()[freed] or http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pooled.html#discard()[discarded]. Normally freeing items is the correct action to take. Items should only be discarded if it is impossible to determine whether the item is still in use. If the `discard()` method is called, a phantom reference is created to track the item, and the item is lazily returned to the pool once all references to it have been cleared; this is a potentially expensive operation so it should be utilized only sparingly if at all.
+Items allocated from pools must be http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pooled.html#free%28%29[freed] or http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/Pooled.html#discard%28%29[discarded]. Normally freeing items is the correct action to take. Items should only be discarded if it is impossible to determine whether the item is still in use. If the `discard()` method is called, a phantom reference is created to track the item, and the item is lazily returned to the pool once all references to it have been cleared; this is a potentially expensive operation so it should be utilized only sparingly if at all.
 
 The `free()` and `discard()` methods are idempotent. Furthermore, if either method is called, subsequent calls to either method are ignored.
 
