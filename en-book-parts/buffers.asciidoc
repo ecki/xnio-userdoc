@@ -50,21 +50,22 @@ When keeping a buffer for long periods of time and/or sharing it between tasks o
 ByteBuffer buffer = this.buffer; // starts in filling state
 buffer.flip(); // switch to emptying state
 try {
-perform emptying tasks;
+    perform emptying tasks;
 } finally {
-buffer.compact(); // restore to filling state
+    buffer.compact(); // restore to filling state
 }
-{code}
+----
 
 Or:
 
-{code}
+[source,java]
+----
 ByteBuffer buffer = this.buffer; // starts in emptying state
 buffer.compact(); // switch to filling state
 try {
-perform filling tasks;
+    perform filling tasks;
 } finally {
-buffer.flip(); // restore to emptying state
+    buffer.flip(); // restore to emptying state
 }
 ----
 
