@@ -1,0 +1,11 @@
+== About XNIO
+XNIO is a low-level I/O framework which provides an NIO-like channel-based abstraction with the introduction of callbacks, thread management, and advanced resource management capabilities. This framework provides simplified access to much of the lowest levels of network and file I/O available through Java, making it easier to implement ultra-high-performance network clients and servers with superior scalability.
+
+This is not a framework for beginners. It is an advanced I/O mechanism designed for developers who are already intimately familiar with TCP/IP and operating system-level file and socket I/O mechanisms. This audience will find that XNIO provides access to many powerful constructs which are very difficult to access or utilize effectively with raw NIO.
+
+This framework also provides many useful utility capabilities around buffer and thread management, asynchronous task handling and execution, streams, combining blocking and non-blocking I/O, and more.
+
+=== XNIO Providers
+XNIO's core functionality is implemented by XNIO _providers_. The default NIO provider runs on all platforms which support Java. However it is also possible to implement native providers which give access to lower-level features; such providers are planned for future XNIO releases.
+
+To use the default NIO provider, simply ensure that its corresponding JAR is visible from the XNIO core API JAR. 
