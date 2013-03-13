@@ -65,6 +65,24 @@ The UDP protocol is a special case of a message channel. An unconnected UDP chan
 === Channel Timeouts
 
 === Accepting Channels
+An accepting channel is a type of channel which allows accepting new incoming connections from remote endpoints.
+
+Accepting channels support `accept()` method, returning a new channel implementing `ConnectedChannel`.
+
+Typically this is done in an accept listener. The number of threads accepting connections can be specified with `Options.WORKER_ACCEPT_THREADS`. The accept listener can be specified while creating a stream server:
+
+[source,java]
+----
+XnioWorker worker = Xnio.getInstance().createWorker(OptionMap.EMPTY);
+AcceptingChannel<? extends ConnectedStreamChannel> server;
+server = worker.createStreamServer(new InetSocketAddress(12345), 
+                                   acceptListener, OptionMap.EMPTY);
+server.resumeAccepts();
+----
+
+For a http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/channels/SuspendableAcceptChannel.html[`SuspendableAcceptChannel`] you can also wait (block) for new connections. This is done with the `awaitAcceptable()` or `awaitAcceptable(long, TimeUnit)` method. 
+
+Suspending and resuming notifications about acceptable sockets is done with `suspendAccepts()` and `resumeAccepts()` methods.
 
 === Pipe Channels
 
