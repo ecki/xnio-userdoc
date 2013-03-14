@@ -90,13 +90,14 @@ The _accept listener_ in this case is a `ChannelListener` for an `AcceptingChann
 ----
 // Create an accept listener.
 ChannelListener<AcceptingChannel<ConnectedStreamChannel>> acceptListener;
-acceptListener == new ChannelListener<AcceptingChannel<ConnectedStreamChannel>>() {
+acceptListener = new ChannelListener<AcceptingChannel<ConnectedStreamChannel>>() {
     public void handleEvent(AcceptingChannel<ConnectedStreamChannel> channel) {
         try {
             ConnectedStreamChannel accepted;
             // channel is ready to accept zero or more connections
             while ((accepted = channel.accept()) != null) {
                 System.out.println("accepted " + accepted.getPeerAddress());
+                // ...
             }
         } catch (IOException ignored) { }
     }
