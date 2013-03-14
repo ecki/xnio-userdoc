@@ -116,7 +116,7 @@ For example when you use the `createStreamServer(SocketAddress, null, Options.EM
 
 With `BoundChannel#getLocalAddress()` or `ConnectedChannel#getPeerAddress()` you can query the current local or remote endpoint of a channel. When you use the results of those methods keep in mind, that the returned SocketAddress objects might contain only the raw address information, and asking the address for hostname or other informations might trigger a name lookup (which is a potentially long running and blocking operation). This is especially true for `InetSocketAddress#getHostName()` or `InetSocketAddress#getAddress().getHostName()`. (Typically the `toString()` method will not trigger reverse address resolution.)
 
-The actual semantics for protocol selection and address binding depends on the actual XNIO provider used. For the NIO provider for example the IPv4/IPv6 semantic is influenced by the system properties `java.net.preferIPv4Stack` and `java.net.preferIPv6Addresses` (see for example http://docs.oracle.com/javase/7/docs/technotes/guides/net/index.html[Oracle Networking IPv6 User Guide]. It may also differ by VM vendor, version and runtime environment.
+The actual semantics for protocol selection and address binding depends on the actual XNIO provider used. It may also differ by VM vendor, version and runtime environment. For the NIO provider for example the IPv4/IPv6 semantic is influenced by the system properties `java.net.preferIPv4Stack` and `java.net.preferIPv6Addresses` (see http://docs.oracle.com/javase/7/docs/technotes/guides/net/index.html[Oracle Networking IPv6 User Guide]). 
 
 === Socket Channels
 
