@@ -80,11 +80,9 @@ server = worker.createStreamServer(new InetSocketAddress(12345),
 server.resumeAccepts();
 ----
 
-For a http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/channels/SuspendableAcceptChannel.html[`SuspendableAcceptChannel`] you can also wait (block) for new connections. This is done with the `awaitAcceptable()` or `awaitAcceptable(long, TimeUnit)` method. 
+For a http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/channels/SuspendableAcceptChannel.html[`SuspendableAcceptChannel`] you can also wait (block) for new connections. This is done with the `awaitAcceptable()` or `awaitAcceptable(long, TimeUnit)` method. Suspending and resuming notifications about acceptable sockets is done with `suspendAccepts()` and `resumeAccepts()` methods.
 
-Suspending and resuming notifications about acceptable sockets is done with `suspendAccepts()` and `resumeAccepts()` methods.
-
-The _accept listener_ in this case is a `ChannelListener` for an `AcceptingChannel` which accepts a `ConnectedStreamChannel`. As described in xref:channe-listener[Channel Listener] the `handleEvent()` method should consume all acceptable sockets (i.e. until `channel.accept()` returns `null`):
+The _accept listener_ in this case is a `ChannelListener` for an `AcceptingChannel` which accepts a `ConnectedStreamChannel`. As described in xref:channel-listeners[Channel Listeners] the `handleEvent()` method should consume all acceptable sockets (i.e. until `channel.accept()` returns `null`):
 
 [source,java]
 ----
