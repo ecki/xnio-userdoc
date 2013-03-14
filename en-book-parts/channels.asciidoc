@@ -109,7 +109,7 @@ The endpoint of a channel is represented by a protocol specific subtype of `Sock
 
 For example when you use the `createStreamServer(SocketAddress, null, Options.EMPTY)` method, the returned server implementation will use the TCP protocol and bind to a IPv4, IPv6 or dual address family on the specified port. Typical subtypes are
 
-* InetSocketAddress for an IP address/port tupel (for example used with TCP and UDP)
+* `InetSocketAddress` for an IP address/port tupel (for example used with TCP and UDP)
 ** `Inet4SocketAddress` for an IPv4 address and port
 ** `Inet6SocketAddress` for an IPv6 address and port
 * http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/LocalSocketAddress.html[`LocalSocketAddress`] for a local (UNIX domain) socket address
