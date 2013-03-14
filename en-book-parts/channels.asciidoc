@@ -89,7 +89,8 @@ The _accept listener_ in this case is a `ChannelListener` for an `AcceptingChann
 [source,java]
 ----
 // Create an accept listener.
-ChannelListener<AcceptingChannel<ConnectedStreamChannel>> acceptListener = new ChannelListener<AcceptingChannel<ConnectedStreamChannel>>() {
+ChannelListener<AcceptingChannel<ConnectedStreamChannel>> acceptListener;
+acceptListener == new ChannelListener<AcceptingChannel<ConnectedStreamChannel>>() {
     public void handleEvent(AcceptingChannel<ConnectedStreamChannel> channel) {
         try {
             ConnectedStreamChannel accepted;
