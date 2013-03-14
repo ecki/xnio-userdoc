@@ -84,6 +84,24 @@ For a http://docs.jboss.org/xnio/3.1/api/index.html?org/xnio/channels/Suspendabl
 
 Suspending and resuming notifications about acceptable sockets is done with `suspendAccepts()` and `resumeAccepts()` methods.
 
+The _accept listener_ in this case is a `ChannelListener` for an `AcceptingChannel` which accepts a `ConnectedStreamChannel`. As described in xref:channe-listener[Channel Listener] the `handleEvent()` method should consume all acceptable sockets (i.e. until `channel.accept()` returns `null`):
+
+[source,java]
+----
+// Create an accept listener.
+ChannelListener<AcceptingChannel<ConnectedStreamChannel>> acceptListener = new ChannelListener<AcceptingChannel<ConnectedStreamChannel>>() {
+    public void handleEvent(AcceptingChannel<ConnectedStreamChannel> channel) {
+        try {
+            ConnectedStreamChannel accepted;
+            // channel is ready to accept zero or more connections
+            while ((accepted = channel.accept()) != null) {
+                System.out.println("accepted " + accepted.getPeerAddress());
+            }
+        } catch (IOException ignored) { }
+    }
+};
+----
+
 === Pipe Channels
 
 === Socket Addresses
