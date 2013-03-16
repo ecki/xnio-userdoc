@@ -2,7 +2,7 @@
 The XNIO API provides a number of utility classes to work with types. The utility methods are typically static methods. The utility classes group them by topic, as you can see in the following paragraphs.
 
 === Bit Utilities
-The http://docs.jboss.org/xnio/3.1/api/org/xnio/Bits.html[`Bits`] utility class is a collection of static methods to work on a bit level with byte, integers or longs. The class is used to set, test or clear bitsets in an efficient way in various places inside the XNIO implementation, and can be used by users for this purpose as well.
+The http://docs.jboss.org/xnio/3.1/api/org/xnio/Bits.html[`org.xnio.Bits`] utility class is a collection of static methods to work on a bit level with byte, integers or longs. The class is used to set, test or clear bitsets in an efficient way in various places inside the XNIO implementation, and can be used by users for this purpose as well.
 
 === IO Utilities
 The http://docs.jboss.org/xnio/3.1/api/org/xnio/IoUtils.html[`org.xnio.IoUtils`] utility class is a collection of static methods to work with IoFutures. It provides some mock implementations for `Closeable`, `Cancelable` or `Executors`.
@@ -23,14 +23,17 @@ In addition to the before mentioned methods to work with channel data there are 
 === Channel Listener Utilities
 
 === Byte Strings
-With the http://docs.jboss.org/xnio/3.1/api/org/xnio/ByteString.html[`org.nio.ByteString`] type XNIO has a immutable representation of byte sequences (arrays). Besides encapsulating a byte[] array as a `ByteString` instance, there are also methods to compare, create, copy or extract sequences of bytes. Immutable byte strings could be used for Options. 
+With the http://docs.jboss.org/xnio/3.1/api/org/xnio/ByteString.html[`org.nio.ByteString`] type XNIO has a immutable representation of byte sequences (arrays). Besides encapsulating a `byte[]` array as a `ByteString` instance, there are also methods to compare, create, copy or extract sequences of bytes. Immutable byte strings could be used for Options. 
 
-Currently the ByteString is not used by XNIO itself.
+Currently the `ByteString` type is not used by XNIO itself.
 
 === Buffer Utilities
+To work with `Buffers` you can use the http://docs.jboss.org/xnio/3.1/api/org/xnio/Buffers.html[`Buffers`] utility class. It features methods for extracting, filling, creating, slizing or extracting data from buffers. There are also helper methods which allow a fluent notation to work with buffers. Check out the xref:buffers[Buffers] section for more information.
+
+An implementation for an allocator for pooled byte buffers is the http://docs.jboss.org/xnio/3.1/api/org/xnio/ByteBufferSlicePool.html[`ByteBufferSlicePool`] which can allocate larger buffers and hand them out in slices.
 
 === Stream Utilities
-In the `org.xnio.streams` package there are a number of classes to create streams which can work with channels.
+In the http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/package-summary.html[`org.xnio.streams`] package there are a number of classes to create streams which can work with channels.
 
 * http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/BufferedChannelInputStream.html[`BufferedChannelInputStream`] is an input stream which uses the specified buffer to read from the wrapped channel.
 * http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/BufferPipeInputStream.html[`BufferPipeInputStream`] is an input stream which can be read in a blocking way. The data is pushed as buffers. Pushed buffers are stored in a unbound queue until consumed completely.
@@ -41,7 +44,7 @@ In the `org.xnio.streams` package there are a number of classes to create stream
 * http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/ReaderInputStream.html[`ReaderInputStream`] wraps an reader with an input stream reading bytes with given encoding.
 * http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/ReaderInputStream.html[`WriterOutputStream`] wraps an writer with an output stream writing bytes with given encoding.
 
-The http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/Streams.html[`Streams`] utility class which has methods to copy an `InputStream` to an `OutputStream` is part of the same package. With the http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/Pipe.html[`Pipe`] class you can provide an output stream, which can be read from an associated `InputStream` (a improved version of the `java.io.PipedInputStream` class).
+The http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/Streams.html[`org.xnio.streams.Streams`] utility class which has methods to copy an `InputStream` to an `OutputStream` is part of the same package. With the http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/Pipe.html[`org.xnio.streams.Pipe`] class you can provide an output stream, which can be read from an associated `InputStream` (a improved version of the `java.io.PipedInputStream` class).
 
 === SASL Utilities
 
