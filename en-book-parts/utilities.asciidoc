@@ -1,18 +1,47 @@
 == Utility Classes
+The XNIO API provides a number of utility classes to work with types. The utility methods are typically static methods. The utility classes group them by topic, as you can see in the following paragraphs.
 
 === Bit Utilities
+The http://docs.jboss.org/xnio/3.1/api/org/xnio/Bits.html[`Bits`] utility class is a collection of static methods to work on a bit level with byte, integers or longs. The class is used to set, test or clear bitsets in an efficient way in various places inside the XNIO implementation, and can be used by users for this purpose as well.
 
 === IO Utilities
+The http://docs.jboss.org/xnio/3.1/api/org/xnio/IoUtils.html[`org.xnio.IoUtils`] utility class is a collection of static methods to work with IoFutures. It provides some mock implementations for `Closeable`, `Cancelable` or `Executors`.
+
+Commonly used is the `safeClose()` methods which can be used to close different closeable objects. It will suppress potential IOExceptions.
+
+As described in the xref:zero-copy-transfer[Zero-Copy Transfers] section, there is also a http://docs.jboss.org/xnio/3.1/api/org/xnio/IoUtils.html#transfer(java.nio.channels.ReadableByteChannel,%20long,%20java.nio.ByteBuffer,%20java.nio.channels.WritableByteChannel%29[`transfer(ReadableByteChannel, long, ByteBuffer, WriteableByteChannel)`] method to transfer data from one channel to another.
+
+The http://docs.jboss.org/xnio/3.1/api/org/xnio/Closer.html[`org.xnio.Closer`] type can be used to wrap a `Closeable` (like channels or streams) and submit it to a thread executor. This allows to carry out the blocking close operation in background. It uses the `IoUtils.safeClose()` method and therefore will ignore IOExceptions.
 
 === Channel Utilities
+The http://docs.jboss.org/xnio/3.1/api/org/xnio/channels/Channels.html[`org.xnio.channels.Channels`] utility class contain static methods to support channel usage.
+
+There is a number of methods to simulate blocking operations on channels, this includes `acceptBlocking()`, `flushBlocking()`, `readBlocking()` and `writeBlocking()` as well as `receiveBlocking()` and `sentBlocking()` for message channels.
+
+In addition to the before mentioned methods to work with channel data there are also helper methods to work with configuration options. You can get a specified Option from a `Configurable` with an optional default value (used when the option was not yet set).
 
 === Channel Listener Utilities
 
 === Byte Strings
+With the http://docs.jboss.org/xnio/3.1/api/org/xnio/ByteString.html[`org.nio.ByteString`] type XNIO has a immutable representation of byte sequences (arrays). Besides encapsulating a byte[] array as a `ByteString` instance, there are also methods to compare, create, copy or extract sequences of bytes. Immutable byte strings could be used for Options. 
+
+Currently the ByteString is not used by XNIO itself.
 
 === Buffer Utilities
 
 === Stream Utilities
+In the `org.xnio.streams` package there are a number of classes to create streams which can work with channels.
+
+* http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/BufferedChannelInputStream.html[`BufferedChannelInputStream`] is an input stream which uses the specified buffer to read from the wrapped channel.
+* http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/BufferPipeInputStream.html[`BufferPipeInputStream`] is an input stream which can be read in a blocking way. The data is pushed as buffers. Pushed buffers are stored in a unbound queue until consumed completely.
+* http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/BufferPipeOutputStream.html[`BufferPipeOutputStream`] writes a stream to an consumer from the pushed buffers.
+* http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/LimitedInputStream.html[`LimitedInputStream`] wraps an input stream, ensuring only the specified number of bytes are read.
+* http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/LimitedOutputStream.html[`LimitedOutputStream`] wraps an output stream, ensuring only the specified number of bytes may be written before an `IOException` is generated.
+
+* http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/ReaderInputStream.html[`ReaderInputStream`] wraps an reader with an input stream reading bytes with given encoding.
+* http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/ReaderInputStream.html[`WriterOutputStream`] wraps an writer with an output stream writing bytes with given encoding.
+
+The http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/Streams.html[`Streams`] utility class which has methods to copy an `InputStream` to an `OutputStream` is part of the same package. With the http://docs.jboss.org/xnio/3.1/api/org/xnio/streams/Pipe.html[`Pipe`] class you can provide an output stream, which can be read from an associated `InputStream` (a improved version of the `java.io.PipedInputStream` class).
 
 === SASL Utilities
 
