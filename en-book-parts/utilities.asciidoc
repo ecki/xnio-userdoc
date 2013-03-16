@@ -28,7 +28,7 @@ With the http://docs.jboss.org/xnio/3.1/api/org/xnio/ByteString.html[`org.nio.By
 Currently the `ByteString` type is not used by XNIO itself.
 
 === Buffer Utilities
-To work with `Buffers` you can use the http://docs.jboss.org/xnio/3.1/api/org/xnio/Buffers.html[`Buffers`] utility class. It features methods for extracting, filling, creating, slizing or extracting data from buffers. There are also helper methods which allow a fluent notation to work with buffers. Check out the xref:buffers[Buffers] section for more information.
+To work with `java.nio.Buffer` types you can use the http://docs.jboss.org/xnio/3.1/api/org/xnio/Buffers.html[`Buffers`] utility class. It features methods for extracting, filling, creating, slizing or extracting data from buffers. There are also helper methods which allow a fluent notation to work with buffers. Check out the xref:buffers[Buffers] section for more information.
 
 An implementation for an allocator for pooled byte buffers is the http://docs.jboss.org/xnio/3.1/api/org/xnio/ByteBufferSlicePool.html[`ByteBufferSlicePool`] which can allocate larger buffers and hand them out in slices.
 
